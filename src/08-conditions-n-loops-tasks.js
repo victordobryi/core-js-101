@@ -409,8 +409,37 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const n = position.length;
+  let diag = 0;
+  let rdiag = 0;
+  const playerDiag = position[0][0];
+  const playerRDiag = position[0][n - 1];
+  for (let i = 0; i < n; i += 1) {
+    let col = 0;
+    let row = 0;
+    let player = position[i][0];
+    if (player) {
+      for (let j = 0; j < n; j += 1) {
+        if (position[i][j] === player) col += 1;
+      }
+    }
+    if (col === n) return player;
+    player = position[0][i];
+    if (player) {
+      for (let j = 0; j < n; j += 1) {
+        if (position[j][i] === player) row += 1;
+      }
+    }
+    if (row === n) return player;
+
+    if (playerDiag && position[i][i] && position[i][i] === playerDiag) diag += 1;
+    if (playerRDiag && position[i][position.length - 1 - i]
+            && position[i][position.length - 1 - i] === playerRDiag) rdiag += 1;
+  }
+  if (diag === position.length) return playerDiag;
+  if (rdiag === position.length) return playerRDiag;
+  return undefined;
 }
 
 
